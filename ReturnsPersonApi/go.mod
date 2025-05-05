@@ -1,4 +1,4 @@
-module apiv02
+module ReturnsPersonApi
 
 go 1.24.0
 
