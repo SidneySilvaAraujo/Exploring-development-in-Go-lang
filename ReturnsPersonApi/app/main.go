@@ -1,25 +1,14 @@
 package main
 
 import (
-	"ReturnsPersonApi/app/controllers"
 	"ReturnsPersonApi/app/dataBaseConfig"
-	"log"
-
-	"github.com/gin-gonic/gin"
+	"ReturnsPersonApi/app/routes"
 )
 
-func setupRoutes() *gin.Engine {
-	engine := gin.Default()
-	log.Printf("setup routes")
-
-	engine.GET("/person", controllers.GetPerson)
-
-	return engine
-}
-
 func main() {
-	r := setupRoutes()
+	r := routes.SetupRoutes()
 
 	dataBaseConfig.Conect()
+
 	r.Run()
 }
