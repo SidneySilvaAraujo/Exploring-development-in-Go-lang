@@ -1,24 +1,21 @@
 package dataBaseConfig
 
 import (
-	"database/sql"
+	"fmt"
 	"log"
 
-	_ "github.com/lib/pq"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
-var DB *sql.DB
+var DB *gorm.DB
 
 func Conect() {
+	dataCon := "user=postgres password=datapostgres dbname=dados_pessoas sslmode=disable"
 	var err error
-	connStr := "user=postgres dbname=dados_pessoas sslmode=disable password=datapostgres"
-	DB, err = sql.Open("postgres", connStr)
+	DB, err = gorm.Open(postgres.Open(dataCon), &gorm.Config{})
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("erro ao conectar no banco de dados", err)
 	}
-	err = DB.Ping()
-	if err != nil {
-		log.Fatal(err)
-	}
-	log.Println("Conexão com o banco estabelecida com sucesso!")
+	fmt.Println("Conexão com o banco estabelicida com sucesso!")
 }

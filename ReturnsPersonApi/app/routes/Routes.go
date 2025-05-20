@@ -13,6 +13,7 @@ func SetupRoutes() *gin.Engine {
 
 	engine.GET("/allPersons", controllers.GetPersons)
 	engine.POST("/createPerson", controllers.CreatePerson)
+	engine.PUT("/update/:id", controllers.UpdatePerson)
 
 	return engine
 }
