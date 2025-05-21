@@ -2,18 +2,13 @@ package routes
 
 import (
 	"ReturnsPersonApi/app/controllers"
-	"log"
 
 	"github.com/gin-gonic/gin"
 )
 
-func SetupRoutes() *gin.Engine {
-	engine := gin.Default()
-	log.Println("setup routes")
-
+func SetupRoutes(engine *gin.Engine) {
 	engine.GET("/allPersons", controllers.GetPersons)
 	engine.POST("/createPerson", controllers.CreatePerson)
 	engine.PUT("/update/:id", controllers.UpdatePerson)
-
-	return engine
+	engine.DELETE("/delete/:id", controllers.DeletePerson)
 }

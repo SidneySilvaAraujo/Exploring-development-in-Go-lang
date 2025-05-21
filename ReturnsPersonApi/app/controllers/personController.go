@@ -66,3 +66,28 @@ func UpdatePerson(c *gin.Context) {
 
 	c.JSON(http.StatusOK, existingPerson)
 }
+
+func DeletePerson(c *gin.Context) {
+	db := c.MustGet("db").(*gorm.DB)
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "id inválido"})
+		return
+	}
+
+	var person models.Person
+	if err := db.First(&person, id).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			c.JSON(http.StatusNotFound, gin.H{"error": "pessoa não encontrada"})
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "erro ao buscar pessoa"})
+		}
+		return
+	}
+
+	if err := db.Delete(&person).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "erro ao deletar a pessoa"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"sucesso": "pessoa deletada com sucesso!"})
+}
